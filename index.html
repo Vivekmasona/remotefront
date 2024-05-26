@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Control Panel</title>
+</head>
+<body>
+    <div>
+        <h1>Control Panel</h1>
+        <input type="text" id="video-id" placeholder="Enter YouTube Video ID">
+        <button id="play-button">Play</button>
+    </div>
+
+    <!-- Include socket.io client library and specify server URL -->
+    <script src="https://remote-video.onrender.com/socket.io/socket.io.js"></script>
+    <script>
+        // Initialize socket connection to the server
+        const socket = io('https://remote-video.onrender.com');
+
+        document.getElementById('play-button').onclick = () => {
+            const videoId = document.getElementById('video-id').value;
+            socket.emit('playVideo', videoId);
+        };
+    </script>
+</body>
+</html>
