@@ -2,14 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Remote Video Player</title>
-    <link rel="stylesheet" href="https://cdn.plyr.io/3.6.4/plyr.css">
+    <title>Remote Video Player Control Panel</title>
 </head>
 <body>
-    <video id="player" controls crossorigin>
+    <div>
+        <h1>Remote Video Player Control Panel</h1>
+        <input type="text" id="video-url" placeholder="Enter Video URL">
+        <button id="play-button">Play</button>
+    </div>
+<video id="videoPlayer" controls autoplay>
         <source src="https://remote-video.onrender.com/video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
     </video>
-
+    <script>
+        // Autoplay the video when the page is loaded
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("videoPlayer").play();
+        });
+    </script>
     <!-- Include Plyr video player library -->
     <script src="https://cdn.plyr.io/3.6.4/plyr.polyfilled.js"></script>
     <!-- Include Socket.io library -->
@@ -18,6 +28,11 @@
         const player = new Plyr('#player');
 
         const socket = io();
+
+        document.getElementById('play-button').onclick = () => {
+            const videoUrl = document.getElementById('video-url').value;
+            socket.emit('playVideo', videoUrl);
+        };
 
         socket.on('playVideo', (videoUrl) => {
             player.source = {
@@ -34,5 +49,4 @@
     </script>
 </body>
 </html>
-
 
